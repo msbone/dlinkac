@@ -1,10 +1,18 @@
+echo "Makeing stuff nice"
+
 sudo mkdir -p "/dlinkac/tftp"
 apt-get -y install libnet-telnet-cisco-perl libnet-telnet-perl xinetd tftpd unzip
+cd "/dlinkac"
+echo "Downloading code....."
+wget https://github.com/msbone/dlinkac/archive/master.zip
+unzip master.zip;
+mv dlinkac-master/* ./
+rm master.zip
 
 sudo chmod -R 777 /dlinkac/tftp
 sudo chown -R nobody /dlinkac/tftp
 cat > /etc/xinetd.d/tftp << EOF
-service 
+service
 tftp
 {
   protocol = udp
@@ -18,3 +26,4 @@ tftp
 }
 EOF
 sudo /etc/init.d/xinetd restart
+echo "Dlinkac is finished instaling (/dlinkac/), lets have fun"
