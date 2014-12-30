@@ -11,13 +11,14 @@ if ($num_args != 2) {
   exit;
 }
 
-$ip_address=$ARGV[0];
+$ip=$ARGV[0];
 $password=$ARGV[2];
 
-$nett = new Net::Netmask ($ip_address);
+$block = new Net::Netmask ($ip);
 
-$netmask = $nett->mask();
-$gateway = $net->nth(1);
+$netmask = $block->mask();
+$router = $block->nth(1);
+$ip_address = substr $ip, 0, -3;
 
 print "\n To use this script your machine must have the IP 10.90.90.91/24 \n";
 print "Make sure the switch is in factory settings and is done with boot \n Press enter to start \n";
@@ -53,6 +54,6 @@ if ($respond == 0)
   $dlink = dlink->connect(ip => "10.90.90.90",username => "admin",password => "admin", name => " ");
   $dlink->setPassword(password => $password);
   sleep(2);
-  $dlink->setIP(ip => $ip_address, gateway => $gateway, subnetmask => $subnetmask);
+  $dlink->setIP(ip => $ip_address, gateway => $router, subnetmask => $netmask);
   sleep(2);
   $dlink->close;

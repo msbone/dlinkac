@@ -1,13 +1,14 @@
-echo "Makeing stuff nice"
+echo "Making stuff nice"
 
 sudo mkdir -p "/dlinkac/tftp"
-apt-get -y install libnet-telnet-cisco-perl libnet-telnet-perl xinetd tftpd unzip
+apt-get -y install libnet-telnet-cisco-perl libnet-telnet-perl xinetd tftpd unzip libnet-netmask-perl
 cd "/dlinkac"
 echo "Downloading code....."
 wget https://github.com/msbone/dlinkac/archive/master.zip
 unzip master.zip;
 mv dlinkac-master/* ./
 rm master.zip
+rm -R dlinkac-master
 
 sudo chmod -R 777 /dlinkac/tftp
 sudo chown -R nobody /dlinkac/tftp
