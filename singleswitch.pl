@@ -12,7 +12,7 @@ if ($num_args != 2) {
 }
 
 $ip=$ARGV[0];
-$password=$ARGV[2];
+$password=$ARGV[1];
 
 $block = new Net::Netmask ($ip);
 
