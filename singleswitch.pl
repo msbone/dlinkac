@@ -34,10 +34,12 @@ if ($respond == 0)
   print "Responds to ping, all good \n";
   #DO THE DLINK MAGIC
   $dlink = dlink->connect(ip => "10.90.90.90",username => "admin",password => "admin", name => " ");
+  sleep(1);
   $dlink->setIP(ip => "10.90.90.90", gateway => "10.90.90.91", subnetmask => "255.255.255.0");
   #REMEMBER TO EDIT THIS
+  sleep(1);
   $dlink->sendConfig(tftp => "10.90.90.91",file => "config.bin");
-  sleep(10);
+  sleep(5);
   $dlink->close;
   undef $dlink;
 
@@ -50,7 +52,7 @@ if ($respond == 0)
     print "No able to ping 10.90.90.90, the switch is not up after config push, \n";
     exit;
   }
-  print "Switch is back online, we now set password then new IP";
+  print "Switch is back online, we now set password then new IP \n";
   $dlink = dlink->connect(ip => "10.90.90.90",username => "admin",password => "admin", name => " ");
   $dlink->setPassword(password => $password);
   sleep(2);
