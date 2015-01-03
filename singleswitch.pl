@@ -38,13 +38,13 @@ if ($respond == 0)
   $dlink->setIP(ip => "10.90.90.90", gateway => "10.90.90.91", subnetmask => "255.255.255.0");
   #REMEMBER TO EDIT THIS
   sleep(1);
-  $dlink->sendConfig(tftp => "10.90.90.91",file => "config.bin");
-  sleep(5);
+  $dlink->sendConfig(tftp => "213.184.213.21",file => "config.bin");
+  sleep(10);
   $dlink->close;
   undef $dlink;
 
   print "The switch should now reboot, lets wait \n";
-  sleep(3);
+  sleep(5);
   $respond = stuff->ping(ip => "10.90.90.90",tryes => "120");
 
   if ($respond == 0)

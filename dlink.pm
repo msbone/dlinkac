@@ -32,7 +32,7 @@ sub setIP {
 my $self = shift;
 my %args = @_;
 $t->print("config ipif System ipaddress $args{ip} $args{subnetmask} gateway $args{gateway}");
-print "Set IP at switch ".$name." to $args{ip} \n";
+print "Set IP at switch ".$name." to $args{ip} $args{subnetmask} gateway $args{gateway}\n";
 }
 
 sub setPassword {

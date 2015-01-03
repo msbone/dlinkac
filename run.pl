@@ -9,7 +9,7 @@ require "/lcs/config.pm";
 
 #THE SCRIPT OF ALL SCRIPTS
 $dbh = DBI->connect("dbi:mysql:$lcs::config::db_name",$lcs::config::db_username,$lcs::config::db_password) or die "Connection Error: $DBI::errstr\n";
-$sql = "select netlist.subnet, netlist.id AS netid, switches.*, coreswitches.name AS distroname, coreswitches.model AS distromodel, coreswitches.ip as distroip from switches JOIN coreswitches, netlist WHERE netlist.id = switches.net_id AND switches.distro_id = coreswitches.id AND switches.model = 'dgs24' AND switches.configured = 0";
+$sql = "select netlist.subnet, netlist.id AS netid, netlist.vlan, switches.*, coreswitches.name AS distroname, coreswitches.model AS distromodel, coreswitches.ip as distroip from switches JOIN coreswitches, netlist WHERE netlist.id = switches.net_id AND switches.distro_id = coreswitches.id AND switches.model = 'dgs24' AND switches.configured = 0";
 
 $sth = $dbh->prepare($sql);
 $sth->execute or die "SQL Error: $DBI::errstr\n";
@@ -58,17 +58,14 @@ while (my $ref = $sth->fetchrow_hashref()) {
     print "Switch is back online, we now set password then new IP \n";
     $dlink = dlink->connect(ip => "10.90.90.90",username => "admin",password => "admin", name => $ref->{'name'});
     $dlink->setPassword(password => $lcs::config::dlink_pass);
-    sleep(2);
-
-    $cidr = $ref->{'ip'}." ".$ref->{'subnet'};
-    $block = new Net::Netmask ($cidr);
+    sleep(5);
+    $block = new Net::Netmask ($ref->{'ip'}, $ref->{'subnet'});
 
     $dlink->setIP(ip => $ref->{'ip'}, gateway => $block->nth(1), subnetmask => $block->mask());
-    sleep(2);
+    sleep(5);
     $dlink->close;
 
-    $distro -> setvlan(port => $connected_port,vlan => $vlan, desc => $ref->{'name'});
-    $distro -> exit();
+    $distro -> setvlan(port => $connected_port,vlan => $ref->{'vlan'}, desc => $ref->{'name'});
     undef $distro;
   }
 }

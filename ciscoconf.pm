@@ -68,10 +68,4 @@ $session->cmd("exit");
 print $name.": port ". $args{port}. " set to vlan ".$args{vlan}."\n";
 }
 
-sub exit {
-  my $self = shift;
-  my %args = @_;
-  $session->cmd("exit");  
-}
-
 1;

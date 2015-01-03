@@ -14,8 +14,7 @@ sudo chmod -R 777 /dlinkac/tftp
 sudo chown -R nobody /dlinkac/tftp
 
 cat > /etc/xinetd.d/tftp << EOF
-service
-tftp
+service tftp
 {
   protocol = udp
   port= 69
